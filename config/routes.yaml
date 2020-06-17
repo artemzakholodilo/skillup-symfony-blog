@@ -1,3 +1,22 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+hello:
+    path: /hello
+    controller: App\Controller\HelloController::index
+
+post:
+    path: /post
+    controller: App\Controller\HelloController::post
+
+home:
+    path: /
+    controller: App\Controller\HomeController::index
+    methods: [GET, POST]
+
+view:
+    path: /{slug}
+    controller: App\Controller\HomeController::view
+    methods: [GET]
+
+tag_posts:
+    path: /tag/{id}
+    controller: App\Controller\TagController::posts
+    methods: [GET]
