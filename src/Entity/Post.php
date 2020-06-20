@@ -7,10 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
- * @ORM\Table(name="posts")
+ * @ORM\Table(name="post")
  */
 class Post
 {
+    public const ITEMS_PER_PAGE = 10;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -21,23 +22,23 @@ class Post
     /**
      * @ORM\Column(type="string", unique=true, options={"default": null})
      */
-    private ?string $slug;
+    private $slug;
 
     /**
      * @ORM\Column(type="string")
      */
-    private string $title;
+    private $title;
 
     /**
      * @ORM\Column(type="text")
      */
-    private ?string $body;
+    private $body;
 
     /**
      * @var Category $categories
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="posts")
      */
-    private object $category;
+    private $category;
 
     /**
      * @var $tags
@@ -45,7 +46,18 @@ class Post
      * @ORM\JoinTable(name="tag_posts")
      */
     private $tags;
+
+    /**
+     * @var ArrayCollection $images
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="post")
+     */
+//    private $images;
 //    private ArrayCollection $users;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $image;
 
     /**
      * @ORM\Column(type="datetime")
@@ -68,6 +80,7 @@ class Post
     public function __construct()
     {
         $this->created = $this->updated = new \DateTime();
+        $this->images = new ArrayCollection();
     }
 
     /**
@@ -97,7 +110,7 @@ class Post
     /**
      * @return string
      */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -129,7 +142,7 @@ class Post
     /**
      * @return \DateTime
      */
-    public function getCreated(): \DateTime
+    public function getCreated(): ?\DateTime
     {
         return $this->created;
     }
@@ -145,7 +158,7 @@ class Post
     /**
      * @return \DateTime
      */
-    public function getUpdated(): \DateTime
+    public function getUpdated(): ?\DateTime
     {
         return $this->updated;
     }
@@ -177,7 +190,7 @@ class Post
     /**
      * @return Category
      */
-    public function getCategory(): ?Category
+    public function getCategory()
     {
         return $this->category;
     }
@@ -185,7 +198,7 @@ class Post
     /**
      * @param $category
      */
-    public function setCategory($category): void
+    public function setCategory($category)
     {
         $this->category = $category;
     }
@@ -209,5 +222,38 @@ class Post
     public function addTag($tag)
     {
         $this->tags[] = $tag;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * @param $image
+     */
+    public function addImage($image)
+    {
+        $this->images->add($image);
+    }
+
+    public function removeImage($image)
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+        }
     }
 }

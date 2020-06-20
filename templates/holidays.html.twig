@@ -9,8 +9,44 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-<div class="container">
-    {% block body %}{% endblock %}
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+                aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <a class="navbar-brand" href="{{ path('home') }}">Hidden brand</a>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0 hidden">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+            </ul>
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <span>
+                    {{ app.user.email }}
+                </span>
+                <a href="{{ path('fos_user_security_logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ path('fos_user_security_login') }}" class="btn">Login</a>
+                <a href="{{ path('fos_user_registration_register') }}" class="btn">Register</a>
+            {% endif %}
+            {% if (is_granted('ROLE_ADMIN')) %}
+                <a href="{{ path('admin_dashboard') }}">Admin panel</a>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="row">
+        <div class="col-3">&nbsp;{% block left_menu %}{% endblock %}</div>
+        <div class="col-7">{% block body %}{% endblock %}</div>
+        <div class="col-2">&nbsp;{% block right_menu %}{% endblock %}</div>
+    </div>
 </div>
 {% block javascripts %}{% endblock %}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

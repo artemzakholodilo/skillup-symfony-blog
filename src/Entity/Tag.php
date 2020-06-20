@@ -31,7 +31,6 @@ class Tag
     /**
      * @var $posts
      * @ORM\ManyToMany(targetEntity="App\Entity\Post", inversedBy="tags")
-     * @ORM\JoinTable(name="tag_posts")
      */
     private $posts;
 

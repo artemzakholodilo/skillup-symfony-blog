@@ -22,19 +22,21 @@ final class Version20200613131054 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
-        $table = $schema->createTable('categories');
-        $table->addColumn('id', TypeS::INTEGER, [
+        if (!$schema->hasTable('categories')) {
+            $table = $schema->createTable('categories');
+            $table->addColumn('id', TypeS::INTEGER, [
                 'length' => 10,
                 'autoincrement' => true,
                 'pk' => true
             ]);
-        $table->addColumn('name', Types::STRING, [
-            'notnull' => true
-        ]);
-        $table->addColumn('rating', TYPES::FLOAT, [
-            'default' => self::DEFAULT_RATING
-        ]);
-        $table->setPrimaryKey(['id']);
+            $table->addColumn('name', Types::STRING, [
+                'notnull' => true
+            ]);
+            $table->addColumn('rating', TYPES::FLOAT, [
+                'default' => self::DEFAULT_RATING
+            ]);
+            $table->setPrimaryKey(['id']);
+        }
     }
 
     public function down(Schema $schema) : void

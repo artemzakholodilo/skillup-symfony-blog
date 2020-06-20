@@ -1,0 +1,7 @@
+fos_user:
+  db_driver: orm # orm - mysql / postgresql # odm - mondogb / redis # filesystem
+  firewall_name: main
+  user_class: App\Entity\User
+  from_email:
+    address: "test@example.com"
+    sender_name: "test@example.com"

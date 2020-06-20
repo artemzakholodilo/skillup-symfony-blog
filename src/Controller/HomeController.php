@@ -3,8 +3,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Post;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,13 +28,21 @@ class HomeController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function index(Request $request): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        $repository = $this->em->getRepository(Post::class);
-        $posts = $repository->findAll();
+        $dql   = "SELECT p FROM App:Post p ORDER BY p.id DESC";
+        $query = $this->em->createQuery($dql);
+        $pageNumber = $request->query->getInt('page', 1);
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $pageNumber, /*page number*/
+            Post::ITEMS_PER_PAGE
+        );
+        $categories = $this->em->getRepository(Category::class)->findAll();
 
         return $this->render('home/index.html.twig', [
-            'posts' => $posts
+            'categories' => $categories,
+            'pagination' => $pagination
         ]);
     }
 

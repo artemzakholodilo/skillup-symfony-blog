@@ -1,0 +1,3 @@
+#todo replace all routing
+fos_user:
+  resource: "@FOSUserBundle/Resources/config/routing/all.xml"

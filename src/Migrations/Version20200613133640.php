@@ -13,26 +13,29 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20200613133640 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
-        $table = $schema->createTable('tags');
-        $table->addColumn('id', Types::INTEGER, [
-            'length' => 10,
-            'autoincrement' => true,
-            'pk' => true
-        ]);
-        $table->addColumn('name', Types::STRING, [
-            'notnull' => true
-        ]);
-        $table->setPrimaryKey(['id']);
+        if (!$schema->hasTable('tags')) {
+
+            $table = $schema->createTable('tags');
+            $table->addColumn('id', Types::INTEGER, [
+                'length' => 10,
+                'autoincrement' => true,
+                'pk' => true
+            ]);
+            $table->addColumn('name', Types::STRING, [
+                'notnull' => true
+            ]);
+            $table->setPrimaryKey(['id']);
+        }
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $schema->dropTable('tags');
     }

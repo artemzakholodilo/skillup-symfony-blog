@@ -1,7 +1,15 @@
 {% extends 'holidays.html.twig' %}
 
+{% block left_menu %}
+    <ul>
+    {% for category in categories %}
+        <li><a href="{{ path('category_posts', {id: category.id}) }}">{{ category.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}
 {% block body %}
-    {% for post in posts %}
+    {# todo check if no posts #}
+    {% for post in pagination %}
         <p>
         <div>
             <a href="{{ path('view', {slug: post.slug}) }}"><h3>{{ post.title }}</h3></a>
@@ -17,4 +25,7 @@
         </p>
         <hr/>
     {% endfor %}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 {% endblock %}

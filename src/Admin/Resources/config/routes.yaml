@@ -1,0 +1,9 @@
+admin_dashboard:
+  path: /admin
+  controller: App\Admin\Controller\DashboardController::index
+  methods: [GET]
+
+admin_add_post:
+  path: /admin/post/add
+  controller: App\Admin\Controller\PostController::add
+  methods: [GET, POST]

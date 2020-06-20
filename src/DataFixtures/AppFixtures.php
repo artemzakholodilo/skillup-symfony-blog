@@ -27,7 +27,7 @@ class AppFixtures extends Fixture
 
         //
         $i = 0;
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $post = new Post();
             $post->setTitle($faker->word(5));
             $post->setBody($faker->realText(3000));
