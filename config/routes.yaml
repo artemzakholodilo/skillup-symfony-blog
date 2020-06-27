@@ -25,6 +25,15 @@ admin_add_post:
   controller: App\Admin\Controller\PostController::add
   methods: [GET, POST]
 
+admin_users:
+  path: /admin/users
+  controller: App\Admin\Controller\UserController::index
+
+admin_assign_user_role:
+  path: /admin/user/promote
+  controller: App\Admin\Controller\UserController::promote
+  methods: [POST, PUT]
+
 view:
   path: /{slug}
   controller: App\Controller\HomeController::view

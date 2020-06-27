@@ -12,8 +12,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * id
+ * product_id
+ * user_id
+ * product_count
+ * status int
+ * date_created
+ * date_updated
  * Class HomeController
  * @package App\Controller
+ * 1, 1, 1, 2
+ * 2, 1, 1, 2, 10
+ * 1 => in_progress => 2
+ *
  */
 class HomeController extends AbstractController
 {
@@ -34,8 +45,8 @@ class HomeController extends AbstractController
         $query = $this->em->createQuery($dql);
         $pageNumber = $request->query->getInt('page', 1);
         $pagination = $paginator->paginate(
-            $query, /* query NOT result */
-            $pageNumber, /*page number*/
+            $query,
+            $pageNumber,
             Post::ITEMS_PER_PAGE
         );
         $categories = $this->em->getRepository(Category::class)->findAll();

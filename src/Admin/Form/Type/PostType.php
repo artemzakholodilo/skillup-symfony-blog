@@ -38,16 +38,12 @@ class PostType extends AbstractType
                 },
                 'multiple' => true
             ])
-            ->add('image', FileType::class, [
-                'label' => 'Post image',
-                'mapped' => false,
-                'required' => false,
-            ])
-//            ->add('images', CollectionType::class, array(
-//                'entry_type' => FileType::class,
-//                'allow_add' => true,
-//                'by_reference' => false,
-//            ))
+            /**
+             * @todo replace
+             */
+            ->add('images', FileType::class, array(
+                'multiple' => true
+            ))
             ->add('add', SubmitType::class, []);
     }
 

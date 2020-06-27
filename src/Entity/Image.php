@@ -60,7 +60,7 @@ class Image
     }
 
     /**
-     * @param mixed $file
+     * @param string $file
      */
     public function setFile($file): void
     {

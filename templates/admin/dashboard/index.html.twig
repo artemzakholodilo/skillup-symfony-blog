@@ -1,8 +1,9 @@
 {% extends 'holidays.html.twig' %}
 
 {% block body %}
-  <div class="row">
-      <a href="{{ path('admin_add_post') }}">Add new post</a>
-      <a href="{{ path('admin_add_post') }}">Add new user</a>
-  </div>
+    <div class="row">
+        <div><a href="{{ path('admin_add_post') }}">Add new post</a></div>
+        <div><a href="{{ path('admin_add_post') }}">Add new user</a></div>
+        <div><a href="{{ path('admin_users') }}">Admin users</a></div>
+    </div>
 {% endblock %}

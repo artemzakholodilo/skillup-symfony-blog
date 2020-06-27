@@ -4,14 +4,18 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  * @ORM\Table(name="post")
+ * @UniqueEntity("slug")
  */
 class Post
 {
-    public const ITEMS_PER_PAGE = 10;
+    public const ITEMS_PER_PAGE = 8;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -21,16 +25,24 @@ class Post
 
     /**
      * @ORM\Column(type="string", unique=true, options={"default": null})
+     * @Assert\NotBlank(message="Слаг не может быть пустым")
      */
     private $slug;
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min="10", max="60",
+     *     minMessage="Поле должно содержать не менее {{ value }} символов",
+     *     maxMessage="60 max"
+     * )
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      */
     private $body;
 
@@ -51,11 +63,13 @@ class Post
      * @var ArrayCollection $images
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="post")
      */
-//    private $images;
+    private $images;
 //    private ArrayCollection $users;
 
     /**
-     * @ORM\Column(type="string")
+     * @todo assert multiple images
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\File(mimeTypes={"image/jpg", "image/png"})
      */
     private $image;
 
@@ -253,6 +267,13 @@ class Post
     public function removeImage($image)
     {
         if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+        }
+    }
+
+    public function removeImages()
+    {
+        foreach ($this->images as $image) {
             $this->images->removeElement($image);
         }
     }
